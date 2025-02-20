@@ -149,6 +149,11 @@ main = (payload) => {
                             newCdata.conceptURI = 'https://uri.gbv.de/terminology/gn250/' + data.NNID;
                             newCdata.conceptName = data.NAME;
 
+                            // if no frontendLanguage exists in originalData: add
+                            if (!originalCdata?.frontendLanguage?.length == 2) {
+                                originalCdata.frontendLanguage = defaultLanguage;
+                            }
+                            // save frontend language (same as given or default)
                             newCdata.frontendLanguage = originalCdata.frontendLanguage;
 
                             newCdata.facetTerm = gn250Util.getFacetTerm(newCdata, databaseLanguages);
@@ -215,6 +220,29 @@ outputErr = (err2) => {
 
     process.stdin.setEncoding('utf8');
 
+    ////////////////////////////////////////////////////////////////////////////
+    // check if hour-restriction is set
+    ////////////////////////////////////////////////////////////////////////////
+
+    if(info?.config?.plugin?.['custom-data-type-gn250']?.config?.update_gn250?.restrict_time === true) {
+        let plugin_config = info.config.plugin['custom-data-type-gn250'].config.update_gn250;
+        // check if hours are configured
+        if(plugin_config?.from_time !== false && plugin_config?.to_time !== false) {
+            const now = new Date();            
+            const hour = now.getHours();
+            // check if hours do not match
+            if(hour < plugin_config.from_time && hour >= plugin_config.to_time) {
+                // exit if hours do not match
+                outputData({
+                    "state": {
+                        "theend": 2,
+                        "log": ["hours do not match, cancel update"]
+                    }
+                });
+            }
+        }
+    }
+
     access_token = info && info.plugin_user_access_token;
 
     if (access_token) {
@@ -231,7 +259,7 @@ outputErr = (err2) => {
 
             frontendLanguages = config.system.config.languages.frontend;
 
-            const testDefaultLanguageConfig = config.plugin['custom-data-type-gn250'].config.update_interval_gn250.default_language;
+            const testDefaultLanguageConfig = config.plugin['custom-data-type-gn250'].config.update_gn250.default_language;
             if (testDefaultLanguageConfig) {
                 if (testDefaultLanguageConfig.length == 2) {
                     defaultLanguage = testDefaultLanguageConfig;
