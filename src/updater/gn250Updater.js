@@ -6,7 +6,7 @@ const fetch = (...args) => import('node-fetch').then(({
 
 let databaseLanguages = [];
 let frontendLanguages = [];
-let default_language = 'de';
+let defaultLanguage = 'de';
 
 let info = {}
 
