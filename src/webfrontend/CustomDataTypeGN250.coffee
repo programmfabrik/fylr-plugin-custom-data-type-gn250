@@ -24,6 +24,11 @@ class CustomDataTypeGN250 extends CustomDataTypeWithCommons
     return databaseLanguages
     
   #######################################################################
+  # allows usage of "standard (geo)" in maskoptioons
+  supportsGeoStandard: 
+    ->true 
+
+  #######################################################################
   # get frontend-language
   getFrontendLanguage: () ->
     # language
