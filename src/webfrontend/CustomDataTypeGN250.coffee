@@ -1,10 +1,15 @@
-class CustomDataTypeGN250 extends CustomDataTypeWithCommons
+class CustomDataTypeGN250 extends CustomDataTypeWithCommonsAsPlugin
 
   #######################################################################
   # bugfix, may be removed after next update (1.3.2017)
   getL10NPrefix: ->
     "custom.data.type.gn250"
 
+  #######################################################################
+  # configure used facet
+  getFacet: (opts) ->
+      opts.field = @
+      new CustomDataTypeGN250Facet(opts)
 
   #######################################################################
   # return name of plugin
