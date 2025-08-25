@@ -32,10 +32,10 @@ function getConfigFromAPI() {
     return new Promise((resolve, reject) => {
         var url = 'http://fylr.localhost:8081/api/v1/config?access_token=' + access_token
         fetch(url, {
-                headers: {
-                    'Accept': 'application/json'
-                },
-            })
+            headers: {
+                'Accept': 'application/json'
+            },
+        })
             .then(response => {
                 if (response.ok) {
                     resolve(response.json());
@@ -48,6 +48,18 @@ function getConfigFromAPI() {
                 console.error("gn250-Updater: Fehler bei der Anfrage an /config");
             });
     });
+}
+
+function isInTimeRange(currentHour, fromHour, toHour) {
+    if (fromHour === toHour) {
+        return true;
+    }
+
+    if (fromHour < toHour) { // same day
+        return currentHour >= fromHour && currentHour < toHour;
+    } else { // through the night
+        return currentHour >= fromHour || currentHour < toHour;
+    }
 }
 
 main = (payload) => {
@@ -88,7 +100,7 @@ main = (payload) => {
                 requestUrls.push(dataRequest);
             });
 
-            Promise.all(requestUrls).then(function(responses) {
+            Promise.all(requestUrls).then(function (responses) {
                 let results = [];
                 // Get a JSON object from each of the responses
                 responses.forEach((response, index) => {
@@ -108,7 +120,7 @@ main = (payload) => {
                     results.push(result);
                 });
                 return Promise.all(results.map(result => result.data));
-            }).then(function(data) {
+            }).then(function (data) {
                 let results = [];
                 data.forEach((data, index) => {
                     let url = requests[index].url;
@@ -159,7 +171,7 @@ main = (payload) => {
                             newCdata.facetTerm = gn250Util.getFacetTerm(newCdata, databaseLanguages);
                             newCdata._fulltext = gn250Util.getFullTextFromObject(data, databaseLanguages);
 
-                            newCdata._standard = gn250Util.getStandardTextFromObject( null, data, originalCdata, databaseLanguages);
+                            newCdata._standard = gn250Util.getStandardTextFromObject(null, data, originalCdata, databaseLanguages);
 
                             geoJSON = gn250Util.getGEOJSONFromObject(data);
                             if (geoJSON)
@@ -167,7 +179,7 @@ main = (payload) => {
 
                             if (hasChanges(payload.objects[index].data, newCdata)) {
                                 payload.objects[index].data = newCdata;
-                            } else {}
+                            } else { }
                         }
                     } else {
                         console.error('No matching record found');
@@ -224,14 +236,14 @@ outputErr = (err2) => {
     // check if hour-restriction is set
     ////////////////////////////////////////////////////////////////////////////
 
-    if(info?.config?.plugin?.['custom-data-type-gn250']?.config?.update_gn250?.restrict_time === true) {
+    if (info?.config?.plugin?.['custom-data-type-gn250']?.config?.update_gn250?.restrict_time === true) {
         let plugin_config = info.config.plugin['custom-data-type-gn250'].config.update_gn250;
         // check if hours are configured
-        if(plugin_config?.from_time !== false && plugin_config?.to_time !== false) {
-            const now = new Date();            
+        if (plugin_config?.from_time !== false && plugin_config?.to_time !== false) {
+            const now = new Date();
             const hour = now.getHours();
             // check if hours do not match
-            if(hour < plugin_config.from_time && hour >= plugin_config.to_time) {
+            if (!isInTimeRange(hour, plugin_config.from_time, plugin_config.to_time)) {
                 // exit if hours do not match
                 outputData({
                     "state": {
@@ -239,7 +251,7 @@ outputErr = (err2) => {
                         "log": ["hours do not match, cancel update"]
                     }
                 });
-            }
+              }
         }
     }
 
