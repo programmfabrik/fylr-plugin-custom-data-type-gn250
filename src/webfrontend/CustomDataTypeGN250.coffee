@@ -60,7 +60,7 @@ class CustomDataTypeGN250 extends CustomDataTypeWithCommonsAsPlugin
       extendedInfo_xhr.xhr.abort()
 
     # start new request
-    extendedInfo_xhr.xhr = new (CUI.XHR)(url: location.protocol + '//uri.gbv.de/terminology/gn250/' + gn250ID + '?format=json')
+    extendedInfo_xhr.xhr = new (CUI.XHR)(url: 'https://uri.gbv.de/terminology/gn250/' + gn250ID + '?format=json')
     extendedInfo_xhr.xhr.start()
     .done((data, status, statusText) ->
       htmlContent = '<span style="padding: 10px 10px 0px 10px; font-weight: bold">' + $$('custom.data.type.gn250.config.parameter.mask.infopopup.popup.info') + '</span>'
@@ -82,7 +82,7 @@ class CustomDataTypeGN250 extends CustomDataTypeWithCommonsAsPlugin
         coord2 = positionTL[0] + ((positionBR[0] - positionTL[0]) / 2)
 
         if coord1 != 0 & coord2 != 0
-          url = location.protocol + '//api.mapbox.com/styles/v1/mapbox/streets-v11/static/' + coord2 + ',' + coord1 + ',11/400x200@2x?access_token=' + mapbox_api_key
+          url = 'https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/' + coord2 + ',' + coord1 + ',11/400x200@2x?access_token=' + mapbox_api_key
           htmlContent += '<div style="width:400px; height: 250px; background-size: contain; background-image: url(' + url + '); background-repeat: no-repeat; background-position: center center;"></div>'
 
 
@@ -165,7 +165,7 @@ class CustomDataTypeGN250 extends CustomDataTypeWithCommonsAsPlugin
             searchsuggest_xhr.xhr.abort()
 
         # start new request
-        searchsuggest_xhr.xhr = new (CUI.XHR)(url: location.protocol + '//ws.gbv.de/suggest/gn250/?searchterm=' + gn250_searchterm + '&count=' + gn250_countSuggestions)
+        searchsuggest_xhr.xhr = new (CUI.XHR)(url: 'https://ws.gbv.de/suggest/gn250/?searchterm=' + gn250_searchterm + '&count=' + gn250_countSuggestions)
         searchsuggest_xhr.xhr.start().done((data, status, statusText) ->
 
             # init xhr for tooltipcontent
