@@ -64,8 +64,8 @@ class CustomDataTypeGN250 extends CustomDataTypeWithCommonsAsPlugin
     extendedInfo_xhr.xhr.start()
     .done((data, status, statusText) ->
       htmlContent = '<span style="padding: 10px 10px 0px 10px; font-weight: bold">' + $$('custom.data.type.gn250.config.parameter.mask.infopopup.popup.info') + '</span>'
-      if that.getCustomSchemaSettings().mapbox_api_key?.value
-          mapbox_api_key = that.getCustomSchemaSettings().mapbox_api_key?.value
+      mapbox_api_key = that.getMapboxApiKey()
+
       if mapbox_api_key
         geoStr = data.BOX_GEO
         geoStr = geoStr.replace('POLYGON ((', '')
@@ -198,9 +198,8 @@ class CustomDataTypeGN250 extends CustomDataTypeWithCommonsAsPlugin
                     markdown: true
                     placement: "e"
                     content: (tooltip) ->
-                      mapbox_api_key = ''
-                      if that.getCustomSchemaSettings().mapbox_api_key?.value
-                          mapbox_api_key = that.getCustomSchemaSettings().mapbox_api_key?.value
+                      mapbox_api_key = that.getMapboxApiKey() || ''
+
                       that.__getAdditionalTooltipInfo(data[3][key], tooltip, extendedInfo_xhr)
                       new CUI.Label(icon: "spinner", text: $$('custom.data.type.gn250.config.parameter.mask.show_infopopup.loading.label'))
                 menu_items.push item
@@ -367,6 +366,18 @@ class CustomDataTypeGN250 extends CustomDataTypeWithCommonsAsPlugin
       tags.push "✘ mapbox-token"
 
     tags
+  
+   getMapboxApiKey: () ->
+    mapbox_api_key = @.getCustomSchemaSettings()?.mapbox_api_key?.value
+    if mapbox_api_key
+      return mapbox_api_key
+    
+    baseConfig = ez5.session.getBaseConfig("plugin", "custom-data-type-gn250")
+    mapbox_api_key = baseConfig?.mapbox_gn250?.mapbox_api_key
+    if mapbox_api_key
+      return mapbox_api_key
+    
+    return null
 
 
 CustomDataType.register(CustomDataTypeGN250)

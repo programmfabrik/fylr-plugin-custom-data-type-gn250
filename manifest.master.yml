@@ -89,3 +89,9 @@ base_config:
         type: text
         default: 'de'
         position: 3
+  - name: mapbox_gn250
+    group: mapbox_update_custom_data_type
+    parameters:
+      mapbox_api_key:
+        type: text
+        position: 0
