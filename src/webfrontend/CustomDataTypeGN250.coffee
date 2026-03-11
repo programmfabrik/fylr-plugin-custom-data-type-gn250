@@ -354,24 +354,8 @@ class CustomDataTypeGN250 extends CustomDataTypeWithCommonsAsPlugin
       right: null
     .DOM
 
-
-  #######################################################################
-  # zeige die gewählten Optionen im Datenmodell unter dem Button an
-  getCustomDataOptionsInDatamodelInfo: (custom_settings) ->
-    tags = []
-
-    if custom_settings.mapbox_api_key?.value
-      tags.push "✓ mapbox-token"
-    else
-      tags.push "✘ mapbox-token"
-
-    tags
   
    getMapboxApiKey: () ->
-    mapbox_api_key = @.getCustomSchemaSettings()?.mapbox_api_key?.value
-    if mapbox_api_key
-      return mapbox_api_key
-    
     baseConfig = ez5.session.getBaseConfig("plugin", "custom-data-type-gn250")
     mapbox_api_key = baseConfig?.mapbox_gn250?.mapbox_api_key
     if mapbox_api_key
