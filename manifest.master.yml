@@ -6,8 +6,16 @@ plugin:
     de-DE: gn250-Verknüpfung
     en-US: gn250-Referencing
   info:
-    de-DE: Stellt Verknüpfungen mit den geographischen Daten des Bundesamtes für Kartographie und Geodäsie her.
-    en-US: Provides links to the geographic data of the Federal Agency for Cartography and Geodesy.
+    de-DE: |
+      Stellt einen eigenen Feldtyp bereit, mit dem Datensätze mit Einträgen des GN250-Datenbestands des Bundesamts für Kartographie und Geodäsie (BKG) verknüpft werden. Redakteure suchen einen Eintrag und hinterlegen eine eindeutige Referenz; der gewählte Ort lässt sich auf einer Karte anzeigen.
+
+      - Vorschläge während der Eingabe über den GBV-Suggest-Dienst
+      - Optionale Kartendarstellung des gewählten Orts über Mapbox
+    en-US: |
+      Adds a custom data type for linking records to entries in the GN250 dataset of the German Federal Agency for Cartography and Geodesy (BKG). Editors search for an entry and store an authoritative reference, and the selected location can be shown on a map.
+
+      - Type-ahead search via the GBV suggest service
+      - Optional map display of the selected place via Mapbox
   server:
     api-version:
       require: 1
@@ -17,9 +25,8 @@ plugin:
     css: customDataTypeGN250.css
     dependencies:
       - commons-library
-    
+
 base_url_prefix: "webfrontend"
-    
 custom_types:
   gn250:
     mapping:
@@ -62,8 +69,8 @@ custom_types:
                 value: "%info.json%"
       timeout: 60
       batch_size: 1
-      expires_days: 1             
-              
+      expires_days: 1
+
 base_config:
   - name: update_gn250
     group: update_custom_data_type
@@ -92,7 +99,7 @@ base_config:
         type: int
         min: 1
         default: 1
-        position: 4        
+        position: 4
   - name: mapbox_gn250
     group: mapbox_update_custom_data_type
     parameters:
