@@ -11,7 +11,7 @@ This is a plugin for [fyr](http://docs.fylr.io/) with Custom Data Type `CustomDa
 The Plugins uses <http://ws.gbv.de/suggest/gn250/> for the autocomplete-suggestions and the mapbox-API for displaying the result in a map.
 
 ## installation
-The latest version of this plugin can be found [here](https://github.com/programmfabrik/fylr-plugin-custom-data-type-gn250/releases/latest/download/customDataTypeGN250.zip).
+The latest version of this plugin can be found [here](https://github.com/programmfabrik/fylr-plugin-custom-data-type-gn250/releases/latest/download/fylr-plugin-custom-data-type-gn250.zip).
 
 The ZIP can be downloaded and installed using the plugin manager, or used directly (recommended).
 
