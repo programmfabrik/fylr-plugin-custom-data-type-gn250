@@ -11,18 +11,23 @@
 server:
   install:
   - l10n/customDataTypeGN250.csv
+  # assembled server-side files, sources in the order written
+  bundles:
+    - out: updater/gn250Updater.js
+      sources:
+      - src/updater/gn250Updater.js
+      - webfrontend/gn250Utilities.coffee
 webfrontend:
-  coffee1:
-  - webfrontend/CustomDataTypeGN250.coffee
-  - webfrontend/CustomDataTypeGN250Facet.coffee
-  - webfrontend/gn250Utilities.coffee
+  # assembled into plugin.webfrontend.url, in this order:
+  # .coffee is compiled (CoffeeScript 1.x), .scss compiled,
+  # anything else taken verbatim
+  bundles:
+    - sources:
+        - webfrontend/CustomDataTypeGN250.coffee
+        - webfrontend/CustomDataTypeGN250Facet.coffee
+        - webfrontend/gn250Utilities.coffee
   install:
   - webfrontend/customDataTypeGN250.css
-build:
-  bundles:
-  - out: updater/gn250Updater.js
-    sources:
-    - src/updater/gn250Updater.js
-    - webfrontend/gn250Utilities.coffee
-  zip_aliases:
-  - customDataTypeGN250.zip
+
+zip_aliases:
+- customDataTypeGN250.zip
